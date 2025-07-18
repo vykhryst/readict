@@ -1,0 +1,157 @@
+.rating {
+    color: #ffc107;
+    font-size: 1.4rem;
+    display: inline-block
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem
+}
+
+.rating-number {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 0 0.75rem
+}
+
+.rating-count {
+    color: #666;
+    font-size: 0.95rem
+}
+
+.book-cover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, .15);
+    max-height: 500px
+}
+
+.book-info-container {
+    padding-left: 2rem;
+}
+
+.badge-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem
+}
+
+.badge-label {
+    color: #555;
+    font-weight: 600;
+    margin-right: .75rem;
+    min-width: 50px;
+}
+
+
+.badge.genre-badge, /* більша специфічність */
+.genre-badge.badge /* альтернативний запис для надійності */
+{
+    background-color: #eaf2f8 !important;
+    color: #3498db !important;
+    border: none;
+    font-weight: 500;
+    font-size: 0.8rem;
+    border-radius: 3rem;
+    margin: .25rem .5rem .25rem 0;
+}
+
+/* ===== БЕЙДЖІ ТРОПІВ ===== */
+.badge.trope-badge,
+.trope-badge.badge {
+    background-color: #f5eef8 !important;
+    color: #8e44ad !important;
+    border: none;
+    font-weight: 500;
+    font-size: 0.8rem;
+    border-radius: 3rem;
+    margin: .25rem .5rem .25rem 0;
+}
+
+
+.book-details-label {
+    font-weight: 600;
+    color: #555;
+    min-width: 150px;
+    display: inline-block
+}
+
+.book-detail {
+    margin-bottom: .75rem
+}
+
+.section-divider {
+    border-top: 1px solid #eee;
+    margin: 2.5rem 0
+}
+
+.dropdown-item.active {
+    background: #eaf2f8;
+    color: #3498db;
+    font-weight: 600
+}
+
+/* ===== ВІДГУКИ =================================================== */
+
+/* форма */
+.review-form-card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
+    margin-bottom: 2rem;
+}
+
+/* окремий відгук */
+.review-card {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .05);
+    margin-bottom: 1rem;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: .5rem;
+}
+
+/* дата у верхньому правому куті */
+.review-date {
+    color: #777;
+    font-size: .85rem;
+}
+
+/* дрібні зірочки усередині відгуків */
+.rating--sm {
+    font-size: 1rem; /* 16 px = як у макеті */
+}
+
+/* курсор та hover для інтерактивних зірочок */
+.rating.pickable i {
+    cursor: pointer;
+}
+
+.rating.pickable i:hover ~ i {
+    color: #e4e3e3; /* світліші зірки справа від курсора */
+}
+
+.series-link {
+    font-style: italic;
+    color: inherit;
+    text-decoration: none;
+}
+.series-link:hover {
+    text-decoration: underline;
+}
+
+.author {
+    color: #555;
+    font-size: 1.2rem;
+}
+
+.author-link {
+    text-decoration: none;
+    color: inherit;
+}
+.author-link:hover {
+    text-decoration: underline;
+}

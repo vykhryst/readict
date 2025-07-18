@@ -1,0 +1,98 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+.navbar {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: #3498db !important;
+}
+
+.nav-link {
+    color: #555 !important;
+    font-weight: 500;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #3498db !important;
+}
+
+.author-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.author-name {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.author-stats {
+    display: flex;
+    margin-bottom: 1.5rem;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.author-stats-item {
+    margin-right: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.author-stats-item i {
+    margin-right: 0.5rem;
+    color: #3498db;
+}
+
+.author-bio {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+footer {
+    background-color: white;
+    color: #555;
+    padding: 2rem 0;
+    margin-top: 3rem;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.breadcrumb {
+    margin-bottom: 1.5rem;
+}
+
+.breadcrumb-item a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+    color: #666;
+}
+
+@media (max-width: 767px) {
+    .author-stats {
+        flex-wrap: wrap;
+    }
+
+    .author-stats-item {
+        margin: 0 1rem 0.5rem 0;
+    }
+}

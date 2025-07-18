@@ -1,0 +1,204 @@
+.profile-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-tabs {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1.25rem;
+}
+
+.profile-tabs .nav-link {
+    color: #555;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    margin-right: 0.5rem;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 0.95rem;
+}
+
+.profile-tabs .nav-link.active {
+    color: #3498db;
+    background-color: transparent;
+    border-bottom: 2px solid #3498db;
+}
+
+.profile-tabs .nav-link:hover:not(.active) {
+    border-bottom: 2px solid #eee;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.form-control {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    height: auto;
+}
+
+.form-control:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.15);
+}
+
+.btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.btn-outline-secondary {
+    color: #555;
+    border-color: #ddd;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.password-requirements {
+    font-size: 0.8rem;
+    color: #777;
+    margin-top: 0.5rem;
+}
+
+.password-requirements ul {
+    padding-left: 1.25rem;
+    margin-bottom: 0;
+    margin-top: 0.25rem;
+}
+
+.password-requirements li {
+    margin-bottom: 0.1rem;
+}
+
+.page-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+}
+
+.form-text {
+    font-size: 0.8rem;
+}
+
+.tab-content {
+    padding: 0.5rem 0;
+}
+
+/* Додані стилі для улюблених жанрів */
+.genre-badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.87rem !important;
+    font-weight: 500;
+    color: #3498db;
+    background-color: #eaf2f8;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+}
+
+.genre-dropdown-button {
+    min-height: 60px;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.5rem 1rem;
+}
+
+.genres-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.dropdown-menu.genres-menu {
+    width: 100%;
+    max-height: 260px;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+.genre-checkbox-label {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.genre-checkbox-label:hover {
+    background-color: #f8f9fa;
+}
+
+.genre-checkbox-input {
+    margin-right: 0.75rem;
+}
+
+.alert {
+    animation: fadeOut 5s forwards;
+    position: relative;
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.genres-display-area {
+    min-height: 38px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.empty-genres-message {
+    color: #6c757d;
+    font-style: italic;
+}
+
+.genres-count-badge {
+    background-color: #e9ecef;
+    color: #495057;
+    font-size: 0.8rem;
+    padding: 0.25em 0.6em;
+    border-radius: 12px;
+    margin-left: 0.5rem;
+}
+
+.genre-badge{
+    display:inline-block;
+    background:#eaf4fe;
+    color:#1c6ecf;
+    padding:.25rem .5rem;
+    border-radius:12px;
+    font-size:.8rem;
+    margin:0 .25rem .25rem 0;
+}
+.empty-genres-message{ color:#888; }

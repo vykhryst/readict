@@ -1,0 +1,196 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: #3498db !important;
+}
+
+.nav-link {
+    color: #555 !important;
+    font-weight: 500;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: #3498db !important;
+}
+
+.register-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.register-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.register-heading-icon {
+    color: #3498db;
+    font-size: 1.8rem;
+    margin-right: 0.75rem;
+}
+
+.form-floating {
+    margin-bottom: 1.25rem;
+}
+
+.form-floating label {
+    color: #666;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    border-color: #3498db;
+    padding: 0.6rem 0;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+    border-color: #2980b9;
+}
+
+.btn-outline-secondary {
+    border-color: #ddd;
+    color: #666;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f8f9fa;
+    border-color: #ddd;
+    color: #333;
+}
+
+.register-separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+    color: #777;
+}
+
+.register-separator::before,
+.register-separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+
+.register-separator::before {
+    margin-right: 1rem;
+}
+
+.register-separator::after {
+    margin-left: 1rem;
+}
+
+.social-register {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+}
+
+.social-btn:hover {
+    transform: scale(1.1);
+}
+
+.social-google {
+    background-color: #DB4437;
+}
+
+.social-facebook {
+    background-color: #4267B2;
+}
+
+.social-apple {
+    background-color: #000;
+}
+
+.login-prompt {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #666;
+}
+
+.login-prompt a {
+    color: #3498db;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-prompt a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    background-color: white;
+    color: #555;
+    padding: 2rem 0;
+    margin-top: auto;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.form-text {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+.password-requirements {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: 0.5rem;
+}
+
+.password-requirements ul {
+    padding-left: 1.5rem;
+    margin-bottom: 0;
+}
+
+.form-check-label {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}

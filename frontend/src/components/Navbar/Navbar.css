@@ -1,0 +1,95 @@
+/* src/components/Navbar/Navbar.css */
+
+.navbar {
+    background-color: #fff !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    z-index: 1030;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: #3498db !important;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    color: #555 !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #3498db !important;
+}
+
+/* Стилі для випадаючого меню користувача */
+.dropdown-toggle::after {
+    margin-left: 0.5em;
+}
+
+.dropdown-menu {
+    border: 1px solid #dee2e6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-divider {
+    margin: 0.5rem 0;
+}
+
+/* Navbar toggler */
+.navbar-toggler {
+    border: none;
+    padding: 0.25rem 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/* Налаштування для пошукового поля в navbar */
+.navbar-nav .nav-item .search-bar {
+    margin-right: 1rem;
+    width: 300px;
+}
+
+/* Адаптивність */
+@media (max-width: 991.98px) {
+    .navbar-nav .nav-item .search-bar {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .navbar-collapse {
+        padding-top: 1rem;
+    }
+
+    .nav-item {
+        margin-bottom: 0.5rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .navbar-nav .nav-item .search-bar {
+        width: 100%;
+    }
+
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
