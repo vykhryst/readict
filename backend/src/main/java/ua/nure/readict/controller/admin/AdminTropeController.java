@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import ua.nure.readict.service.interfaces.TropeService;
 @RestController
 @RequestMapping("/admin/trope")
 @RequiredArgsConstructor
+@Tag(name = "Admin Trope", description = "APIs for admin management of tropes")
 public class AdminTropeController {
 
     private final TropeService tropeService;

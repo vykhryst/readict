@@ -18,7 +18,7 @@ import ua.nure.readict.service.interfaces.BookService;
 @RestController
 @RequestMapping("/admin/book")
 @RequiredArgsConstructor
-@Tag(name = "Admin Books", description = "API for managing books by admin")
+@Tag(name = "Admin Books", description = "APIs for admin management of books")
 public class AdminBookController {
 
     private final BookService bookService;

@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tropes")
-@Tag(name = "Tropes")
+@Tag(name = "Tropes", description = "API for managing tropes")
 @RequiredArgsConstructor
 public class TropeController {
 

@@ -409,7 +409,6 @@ export default function BookPage() {
                         </div>
                     </div>
                 ))}
-
                 <ReviewPager page={revPage} total={revTotal} onChange={loadReviews}/>
             </div>
 

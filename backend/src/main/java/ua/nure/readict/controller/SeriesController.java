@@ -20,7 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/series")
-@Tag(name = "Series")
+@Tag(name = "Series", description = "API for managing book series")
 @RequiredArgsConstructor
 public class SeriesController {
 

@@ -15,5 +15,5 @@ export const login = (email, password) =>
 export const logout = () =>
     api.post("/auth/logout");
 
-export const me = () =>
-    api.get("/user/me");      // 200 + UserDto або 204 No Content
+export const getSession = () =>
+    api.get("/auth/session");

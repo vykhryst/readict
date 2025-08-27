@@ -54,7 +54,6 @@ public class AuthService {
         Role userRole = roleRepository.findByName("USER")
                 .orElseThrow(() -> new IllegalStateException("Default USER role not found"));
 
-        // Створюємо і зберігаємо юзера
         User user = userMapper.toEntity(dto);
         user.setRole(userRole);
         user.setPasswordHash(passwordEncoder.encode(dto.password()));

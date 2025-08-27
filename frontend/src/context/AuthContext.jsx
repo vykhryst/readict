@@ -1,6 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {login as apiLogin, logout as apiLogout} from "../api/auth";
-import {getMe as apiMe} from "../api/user.js";
+import {getSession, login as apiLogin, logout as apiLogout} from "../api/auth";
 
 const AuthContext = createContext(null);
 export const useAuth = () => useContext(AuthContext);
@@ -9,23 +8,22 @@ export function AuthProvider({children}) {
     const [user, setUser] = useState(null);      // null = loading
     const isGuest = !user || !user.email;
 
-    /* ---- одноразове визначення сесії ---- */
     const refresh = async () => {
         try {
-            const {data} = await apiMe();
-            setUser(data);           // 200 OK
+            const {data} = await getSession();
+            setUser(data);
         } catch {
-            setUser({});             // 204 або 401
+            setUser({});
         }
     };
     useEffect(() => {
-        refresh().then(r => console.log("AuthContext: refresh()"));
+        refresh().then();
     }, []);
 
     /* ---- методи ---- */
     const login = async (email, password) => {
         await apiLogin(email, password);
-        await refresh();           // тепер контекст знає користувача
+        await refresh();
     };
 
     const logout = async () => {

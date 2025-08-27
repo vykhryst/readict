@@ -6,6 +6,7 @@ public final class Constants {
     public static final String AUTHOR_NOT_FOUND = "Author with id %d not found";
     public static final String GENRE_NOT_FOUND = "Genre with id %d not found";
     public static final String TROPE_NOT_FOUND = "Trope with id %d not found";
+    public static final String USER_NOT_FOUND = "User with id %d not found";
 
     private Constants() {
     }

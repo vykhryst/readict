@@ -29,9 +29,6 @@ public class LibraryServiceImpl implements LibraryService {
     private final ReviewRepository reviewRepo;
     private final RatingRepository ratingRepo;  // ← ДОДАТИ
 
-
-    /* ---------- getLibrarySummary ---------- */
-
     public LibrarySummaryDto getLibrarySummary(Long uid) {
         return new LibrarySummaryDto(
                 userBookRepo.countAll(uid),
@@ -41,8 +38,6 @@ public class LibraryServiceImpl implements LibraryService {
         );
     }
 
-    /* ---------- findAllInUserLibrary (фільтри + сортування) ---------- */
-
     public Page<LibraryBookDto> findAllInUserLibrary(Long uid,
                                                      String shelf,
                                                      String search,
@@ -50,10 +45,9 @@ public class LibraryServiceImpl implements LibraryService {
                                                      LocalDate yearFrom,
                                                      LocalDate yearTo,
                                                      Set<Long> genres,
-                                                     String sortCode,   // < — код, а не Sort
+                                                     String sortCode,
                                                      Pageable pageable) {
 
-        /* ---------- SPEC (фільтри) ---------- */
         Specification<UserBook> spec = (root, query, cb) -> {
             List<Predicate> ps = new ArrayList<>();
 
@@ -103,7 +97,6 @@ public class LibraryServiceImpl implements LibraryService {
         };
 
 
-        /* ---------- сортування у БД (усе, крім рейтингу) ---------- */
         Sort jpaSort = switch (sortCode) {
             case "TITLE_ASC" -> Sort.by("book.title").ascending();
             case "TITLE_DESC" -> Sort.by("book.title").descending();
@@ -115,15 +108,13 @@ public class LibraryServiceImpl implements LibraryService {
             // RATING_* обробляємо нижче
         };
 
-        /* -- Якщо це не рейтинг — простий findAllInUserLibrary з сортуванням у SQL -- */
         if (!sortCode.startsWith("RATING_")) {
             Page<UserBook> raw = userBookRepo.findAll(spec,
                     PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), jpaSort));
             return raw.map(ub -> toDto(uid, ub));
         }
 
-        /* ---------- сортування за власним рейтингом (in-memory) ---------- */
-        List<UserBook> filtered = userBookRepo.findAll(spec);            // без пагінації
+        List<UserBook> filtered = userBookRepo.findAll(spec);
         Comparator<UserBook> cmp = Comparator.comparing(
                 (UserBook ub) -> ratingRepo.findScore(uid, ub.getBook().getId()).orElse(null),
                 Comparator.nullsLast(Integer::compareTo)
@@ -142,7 +133,6 @@ public class LibraryServiceImpl implements LibraryService {
         return new PageImpl<>(slice, pageable, filtered.size());
     }
 
-    /* ——— допоміжний метод ——— */
     private LibraryBookDto toDto(Long uid, UserBook ub) {
         Book b = ub.getBook();
 
