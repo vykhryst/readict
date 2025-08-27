@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import classNames from "classnames";
 
 import {getRecommendations} from "../../api/recommendations";
@@ -10,6 +10,7 @@ import Footer from "../Footer/Footer";
 
 import "./RecommendationsPage.css";
 import RecommendationCard from "./RecommendationCard";
+import PaginationWindow from "../PaginationWindow/PaginationWindow";
 
 export default function RecommendationsPage() {
     const [genres, setGenres] = useState([]);
@@ -55,7 +56,7 @@ export default function RecommendationsPage() {
                         r.status === 200 && setShelfMap((m) => ({...m, [b.id]: r.data})),
                 )
                 .catch(() => {
-                }); // if 204 No Content → leave undefined
+                });
         });
     }, [data]);
 
@@ -93,42 +94,11 @@ export default function RecommendationsPage() {
             content: prev.content.filter((b) => b.id !== bookId),
         }));
 
-    /* ---------- pagination window function ---------- */
-    function getPageWindow(current, total, radius = 2) {
-        const window = [];
-
-        // завжди перша
-        window.push(0);
-
-        // блок ліворуч
-        const from = Math.max(1, current - radius);
-        if (from > 1) window.push("left-ellipsis");
-
-        for (let i = from; i <= Math.min(current + radius, total - 2); i++) {
-            window.push(i);
-        }
-
-        // блок праворуч
-        if (current + radius < total - 2) window.push("right-ellipsis");
-
-        // завжди остання, якщо > 1 стор.
-        if (total > 1) window.push(total - 1);
-
-        return window;
-    }
-
     /* ---------- pagination meta ---------- */
     const meta = data?.page ?? {number: 0, totalPages: 0, totalElements: 0};
     const currentPage = meta.number;
     const totalPages = meta.totalPages;
 
-    // Мемоізоване вікно пагінації
-    const pageWindow = useMemo(
-        () => getPageWindow(currentPage, totalPages),
-        [currentPage, totalPages],
-    );
-
-    /* ---------- UI ---------- */
     return (
         <>
             <Navbar/>
@@ -270,73 +240,11 @@ export default function RecommendationsPage() {
                             </div>
                         )}
 
-                        {/* pagination з вікном */}
-                        {totalPages > 1 && (
-                            <nav aria-label="Навігація по сторінках">
-                                <ul className="pagination justify-content-center">
-                                    {/* Кнопка "Попередня" */}
-                                    <li
-                                        className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
-                                    >
-                                        <button
-                                            className="page-link"
-                                            onClick={() =>
-                                                setFilter((f) => ({
-                                                    ...f,
-                                                    page: Math.max(0, f.page - 1),
-                                                }))
-                                            }
-                                            disabled={currentPage === 0}
-                                            aria-label="Попередня сторінка"
-                                        >
-                                            &laquo;
-                                        </button>
-                                    </li>
-
-                                    {/* Динамічне вікно сторінок */}
-                                    {pageWindow.map((p, idx) =>
-                                        p === "left-ellipsis" || p === "right-ellipsis" ? (
-                                            <li key={p + idx} className="page-item disabled">
-                                                <span className="page-link">…</span>
-                                            </li>
-                                        ) : (
-                                            <li
-                                                key={p}
-                                                className={`page-item ${p === currentPage ? "active" : ""}`}
-                                            >
-                                                <button
-                                                    className="page-link"
-                                                    onClick={() => setFilter((f) => ({...f, page: p}))}
-                                                    aria-label={`Сторінка ${p + 1}`}
-                                                    aria-current={p === currentPage ? "page" : undefined}
-                                                >
-                                                    {p + 1}
-                                                </button>
-                                            </li>
-                                        ),
-                                    )}
-
-                                    {/* Кнопка "Наступна" */}
-                                    <li
-                                        className={`page-item ${currentPage >= totalPages - 1 ? "disabled" : ""}`}
-                                    >
-                                        <button
-                                            className="page-link"
-                                            onClick={() =>
-                                                setFilter((f) => ({
-                                                    ...f,
-                                                    page: Math.min(totalPages - 1, f.page + 1),
-                                                }))
-                                            }
-                                            disabled={currentPage >= totalPages - 1}
-                                            aria-label="Наступна сторінка"
-                                        >
-                                            &raquo;
-                                        </button>
-                                    </li>
-                                </ul>
-                            </nav>
-                        )}
+                        <PaginationWindow
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onChange={(p) => setFilter(f => ({...f, page: p}))}
+                        />
                     </div>
                 </div>
             </div>

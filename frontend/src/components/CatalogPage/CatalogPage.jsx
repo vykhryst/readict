@@ -1,32 +1,27 @@
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {fetchBooks, fetchGenres} from "../../api/books";
-import "./CatalogPage.css"; // стилі з макета
+import "./CatalogPage.css";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
 import BookCard from "../BookCard/BookCard";
+import PaginationWindow from "../PaginationWindow/PaginationWindow";
 
-/** ---------------------------------------------------------------------- */
 export default function CatalogPage() {
-    /* ------------ стан фільтрів ----------------------------------------- */
     const [title, setTitle] = useState("");
     const [genreIds, setGenreIds] = useState([]);
     const [sort, setSort] = useState("averageRating,desc");
     const [size, setSize] = useState(6);
     const [page, setPage] = useState(0);
 
-    /* ------------ дані з бекенда ---------------------------------------- */
     const [books, setBooks] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [totalElements, setTotalElements] = useState(0);
     const [genres, setGenres] = useState([]);
 
-    /* ------------ запит жанрів один раз --------------------------------- */
-    /* жанри – один раз */
     useEffect(() => {
         fetchGenres().then(res => setGenres(res.data.content));
     }, []);
 
-    /* книги – при зміні фільтрів або сторінки */
     useEffect(() => {
         fetchBooks({title, genreIds, page, size, sort})
             .then(res => {
@@ -37,7 +32,6 @@ export default function CatalogPage() {
     }, [title, genreIds, sort, size, page]);
 
 
-    /* ------------ обробники --------------------------------------------- */
     const toggleGenre = id =>
         setGenreIds(g =>
             g.includes(id) ? g.filter(i => i !== id) : [...g, id]);
@@ -50,37 +44,6 @@ export default function CatalogPage() {
         setPage(0);
     };
 
-    function getPageWindow(current, total, radius = 2) {
-        const window = [];
-
-        // завжди перша
-        window.push(0);
-
-        // блок ліворуч
-        const from = Math.max(1, current - radius);
-        if (from > 1) window.push("left-ellipsis");
-
-        for (let i = from; i <= Math.min(current + radius, total - 2); i++) {
-            window.push(i);
-        }
-
-        // блок праворуч
-        if (current + radius < total - 2) window.push("right-ellipsis");
-
-        // завжди остання, якщо > 1 стор.
-        if (total > 1) window.push(total - 1);
-
-        return window;
-    }
-
-    /* ------------ пагінація -------------------------------------------- */
-    const pageWindow = useMemo(
-        () => getPageWindow(page, totalPages),
-        [page, totalPages]
-    );
-
-
-    /* ==================================================================== */
     return (
         <>
             <Navbar/>
@@ -95,7 +58,6 @@ export default function CatalogPage() {
 
             <div className="container">
                 <div className="row">
-                    {/* ----------------- Сайдбар фільтрів -------------------------- */}
                     <aside className="col-lg-3">
                         {/* Пошук */}
                         <div className="card filter-card">
@@ -112,7 +74,6 @@ export default function CatalogPage() {
                             </div>
                         </div>
 
-                        {/* Сортування */}
                         <div className="card filter-card">
                             <div className="card-header">Сортування</div>
                             <div className="card-body">
@@ -129,7 +90,6 @@ export default function CatalogPage() {
                             </div>
                         </div>
 
-                        {/* Жанри у скролл-меню */}
                         <div className="card filter-card">
                             <div className="card-header">Жанри</div>
                             <div className="card-body">
@@ -163,7 +123,6 @@ export default function CatalogPage() {
                             </div>
                         </div>
 
-                        {/* К-сть на сторінці */}
                         <div className="card filter-card">
                             <div className="card-header">Кількість на сторінці</div>
                             <div className="card-body">
@@ -185,7 +144,6 @@ export default function CatalogPage() {
                         </button>
                     </aside>
 
-                    {/* ----------------- Список книг -------------------------------- */}
                     <section className="col-lg-9">
                         {/* підзаголовок */}
                         <div className="d-flex justify-content-between align-items-center mb-4">
@@ -194,46 +152,15 @@ export default function CatalogPage() {
                             </p>
                         </div>
 
-                        {/* grid */}
                         <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
                             {books.map(b => <BookCard key={b.id} book={b}/>)}
                         </div>
 
-                        {/* пагінація */}
-                        <nav>
-                            <ul className="pagination justify-content-center">
-
-                                {/* < «попередня» */}
-                                <li className={`page-item ${page === 0 && "disabled"}`}>
-                                    <button className="page-link" onClick={() => setPage(p => p - 1)}>
-                                        &laquo;
-                                    </button>
-                                </li>
-
-                                {/* динамічне вікно */}
-                                {pageWindow.map((p, idx) =>
-                                    p === "left-ellipsis" || p === "right-ellipsis" ? (
-                                        <li key={p + idx} className="page-item disabled">
-                                            <span className="page-link">…</span>
-                                        </li>
-                                    ) : (
-                                        <li key={p} className={`page-item ${p === page && "active"}`}>
-                                            <button className="page-link" onClick={() => setPage(p)}>
-                                                {p + 1}
-                                            </button>
-                                        </li>
-                                    )
-                                )}
-
-                                {/* » «наступна» */}
-                                <li className={`page-item ${page >= totalPages - 1 && "disabled"}`}>
-                                    <button className="page-link" onClick={() => setPage(p => p + 1)}>
-                                        &raquo;
-                                    </button>
-                                </li>
-                            </ul>
-
-                        </nav>
+                        <PaginationWindow
+                            currentPage={page}
+                            totalPages={totalPages}
+                            onChange={(p) => setPage(p)}
+                        />
                     </section>
                 </div>
             </div>
