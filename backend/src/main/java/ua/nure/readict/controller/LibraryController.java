@@ -29,6 +29,14 @@ public class LibraryController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{bookId}")
+    public ResponseEntity<String> getBookShelf(@PathVariable Long bookId,
+                                               @AuthenticationPrincipal CurrentUser cu) {
+        return service.findShelf(cu.getUser().getId(), bookId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.noContent().build());
+    }
+
     @DeleteMapping("/{bookId}")
     public ResponseEntity<Void> deleteBookFromLibrary(@PathVariable Long bookId,
                                                       @AuthenticationPrincipal CurrentUser cu) {
