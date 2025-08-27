@@ -5,8 +5,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.nure.readict.dto.AuthorDto;
@@ -16,6 +18,7 @@ import ua.nure.readict.service.interfaces.AuthorService;
 @RestController
 @RequestMapping("/admin/author")
 @RequiredArgsConstructor
+@Tag(name = "Admin Author", description = "Admin endpoints for managing authors")
 public class AdminAuthorController {
 
     private final AuthorService authorService;

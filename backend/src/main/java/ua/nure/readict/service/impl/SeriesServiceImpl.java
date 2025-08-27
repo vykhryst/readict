@@ -101,12 +101,10 @@ public class SeriesServiceImpl extends AbstractService implements SeriesService 
 
     @Override
     public Map<String, Object> getSeriesStats(Long seriesId) {
-        // Перевіряємо чи існує серія
         findEntityByIdOrThrow(seriesId, seriesRepository, Constants.SERIES_NOT_FOUND);
 
         Map<String, Object> stats = new HashMap<>();
 
-        // Отримуємо статистику через репозиторій книг
         Long bookCount = bookRepository.countBySeriesId(seriesId);
         Double averageRating = bookRepository.getAverageRatingBySeriesId(seriesId);
 
@@ -122,7 +120,6 @@ public class SeriesServiceImpl extends AbstractService implements SeriesService 
                                             String name) {
         List<Predicate> predicates = new ArrayList<>();
 
-        // Пошук за назвою серії (LIKE)
         if (name != null && !name.isBlank()) {
             predicates.add(
                     cb.like(cb.lower(root.get("name")),
@@ -132,15 +129,11 @@ public class SeriesServiceImpl extends AbstractService implements SeriesService 
         return cb.and(predicates.toArray(new Predicate[0]));
     }
 
-    /**
-     * Побудова предикатів для фільтрації книг за серією
-     */
     private Predicate buildBooksBySeriesPredicates(Root<Book> root,
                                                    CriteriaBuilder cb,
                                                    Long seriesId) {
         List<Predicate> predicates = new ArrayList<>();
 
-        // Фільтр за ID серії
         if (seriesId != null) {
             predicates.add(cb.equal(root.get("series").get("id"), seriesId));
         }

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import ua.nure.readict.service.interfaces.GenreService;
 @RestController
 @RequestMapping("/admin/genre")
 @RequiredArgsConstructor
+@Tag(name = "Admin Genre", description = "APIs for admin to manage book genres")
 public class AdminGenreController {
 
     private final GenreService genreService;

@@ -19,7 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/authors")
-@Tag(name = "Authors")
+@Tag(name = "Authors", description = "Endpoints for managing authors")
 @RequiredArgsConstructor
 public class AuthorController {
 

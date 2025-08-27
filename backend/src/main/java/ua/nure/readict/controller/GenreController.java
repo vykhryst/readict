@@ -16,7 +16,7 @@ import ua.nure.readict.service.interfaces.GenreService;
 
 @RestController
 @RequestMapping("/genres")
-@Tag(name = "Genres")
+@Tag(name = "Genres", description = "APIs for managing book genres")
 @RequiredArgsConstructor
 public class GenreController {
 

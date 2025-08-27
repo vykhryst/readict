@@ -66,7 +66,6 @@ public class BookServiceImpl extends AbstractService implements BookService {
     public Page<BookResponse> getRecommendedBooksByUserId(User user, Long genreId, String sort, int page, int size) {
         Long userId = user.getId();
 
-        /* -------- чи задано користувачем власне сортування? -------- */
         boolean customSorting = sort != null && !sort.isBlank();
 
         Pageable pageable;
@@ -101,7 +100,6 @@ public class BookServiceImpl extends AbstractService implements BookService {
 
 
     private Page<BookResponse> getFallbackBooks(User user, int page, int size) {
-        // Дістаємо улюблені жанри користувача
         Set<Long> favGenreIds = user.getFavouriteGenres().stream()
                 .map(Genre::getId)
                 .collect(Collectors.toSet());
@@ -109,16 +107,13 @@ public class BookServiceImpl extends AbstractService implements BookService {
             return getGlobalTopBooks(page, size);
         }
 
-        // Які книжки вже оцінив користувач
         Set<Long> ratedBookIds = ratingRepository.findAllByUserId(user.getId()).stream()
                 .map(Rating::getBookId).collect(Collectors.toSet());
 
-        // Побудова fallback‑Pageable: сортування за avgRating DESC, ratingCount DESC
         Sort fallbackSort = Sort.by(Sort.Order.desc("averageRating"),
                 Sort.Order.desc("ratingCount"));
         Pageable fallbackPageable = PageRequest.of(page, size, fallbackSort);
 
-        // Витягуємо fallback‑книги
         Page<Book> fallbackPage = bookRepository.findByGenresInExcludeBooks(
                 favGenreIds,
                 ratedBookIds,
@@ -191,14 +186,12 @@ public class BookServiceImpl extends AbstractService implements BookService {
                                           List<Long> genreIds) {
         List<Predicate> predicates = new ArrayList<>();
 
-        // пошук за назвою (LIKE)
         if (title != null && !title.isBlank()) {
             predicates.add(
                     cb.like(cb.lower(root.get("title")),
                             "%" + title.toLowerCase() + "%"));
         }
 
-        // фільтр за кількома жанрами (IN)
         if (genreIds != null && !genreIds.isEmpty()) {
             predicates.add(
                     root.join("genres")

@@ -114,7 +114,7 @@ public class SecurityConfig {
         CorsConfiguration cors = new CorsConfiguration();
         cors.setAllowedOrigins(ALLOWED_ORIGINS);
         cors.setAllowedMethods(ALLOWED_METHODS);
-        cors.addAllowedHeader(CorsConfiguration.ALL); // або конкретний список, якщо хочете жорсткіше
+        cors.addAllowedHeader(CorsConfiguration.ALL);
         cors.setAllowCredentials(true);
         cors.setMaxAge(Duration.ofHours(1));
 
