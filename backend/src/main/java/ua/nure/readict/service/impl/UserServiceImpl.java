@@ -14,6 +14,7 @@ import ua.nure.readict.mapper.UserMapper;
 import ua.nure.readict.repository.GenreRepository;
 import ua.nure.readict.repository.UserRepository;
 import ua.nure.readict.service.interfaces.UserService;
+import ua.nure.readict.util.Constants;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -26,86 +27,93 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final GenreRepository genreRepository;
-    private final ApplicationEventPublisher events;
+    private final ApplicationEventPublisher eventPublisher;
     private final UserMapper userMapper;
-    private final PasswordEncoder pwdEncoder;
-
-
-    @Override
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public void updateFavouriteGenres(Long userId, Set<Long> genreIds) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User user = getUserOrThrow(userId);
+        Set<Genre> genres = getGenresByIdsOrThrow(genreIds);
+
         user.getFavouriteGenres().clear();
-        for (Long id : genreIds) {
-            Genre genre = genreRepository.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException("Genre not found"));
-            user.getFavouriteGenres().add(genre);
-        }
+        user.getFavouriteGenres().addAll(genres);
         userRepository.save(user);
-        events.publishEvent(new FavouriteGenresChangedEvent(userId));
+
+        eventPublisher.publishEvent(new FavouriteGenresChangedEvent(userId));
     }
 
     @Override
-    public User getById(Long id) {
+    public UserDto getById(Long id) {
+        return userMapper.toDto(getUserOrThrow(id));
+    }
+
+    public User getUserOrThrow(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new EntityNotFoundException(Constants.USER_NOT_FOUND.formatted(id)));
     }
 
     @Override
     @Transactional
-    public void updateNamesAndGenres(User user,
-                                     String first,
-                                     String last,
-                                     Set<Long> genreIds) {
-        user.setFirstName(first.trim());
-        user.setLastName(last.trim());
-        boolean genresChanged = false;                          // ← прапорець
+    public UserDto updateUserNamesAndFavouriteGenres(Long userId, String firstName, String lastName, Set<Long> genreIds) {
+        User user = getUserOrThrow(userId);
+
+        user.setFirstName(Optional.ofNullable(firstName).map(String::trim).orElse(""));
+        user.setLastName(Optional.ofNullable(lastName).map(String::trim).orElse(""));
+
+        boolean genresChanged = false;
 
         if (genreIds != null) {
-            Set<Long> oldIds = user.getFavouriteGenres()
-                    .stream()
+            Set<Long> currentIds = user.getFavouriteGenres().stream()
                     .map(Genre::getId)
                     .collect(Collectors.toSet());
 
-            Set<Genre> newGenres = new HashSet<>(genreRepository.findAllById(genreIds));
-            user.setFavouriteGenres(newGenres);
-
+            Set<Genre> newGenres = getGenresByIdsOrThrow(genreIds);
             Set<Long> newIds = newGenres.stream()
                     .map(Genre::getId)
                     .collect(Collectors.toSet());
 
-            genresChanged = !oldIds.equals(newIds);             // ← перевірка
+            if (!currentIds.equals(newIds)) {
+                user.setFavouriteGenres(newGenres);
+                genresChanged = true;
+            }
         }
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         if (genresChanged) {
-            events.publishEvent(new FavouriteGenresChangedEvent(user.getId()));
+            eventPublisher.publishEvent(new FavouriteGenresChangedEvent(user.getId()));
         }
-    }
 
-
-    @Override
-    public void changePassword(Long id, String currentPwd, String newPwd) {
-
-        User u = getById(id);
-        if (!pwdEncoder.matches(currentPwd, u.getPasswordHash()))
-            throw new IllegalArgumentException("Неправильний поточний пароль");
-
-        u.setPasswordHash(pwdEncoder.encode(newPwd));
-        userRepository.save(u);
+        return userMapper.toDto(savedUser);
     }
 
     @Override
-    public UserDto findById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        return userMapper.toDto(user);
+    public void changePassword(Long userId, String currentPassword, String newPassword) {
+        User user = getUserOrThrow(userId);
+
+        if (!passwordEncoder.matches(currentPassword, user.getPasswordHash())) {
+            throw new IllegalArgumentException("Current password is incorrect.");
+        }
+
+        user.setPasswordHash(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    private Set<Genre> getGenresByIdsOrThrow(Set<Long> genreIds) {
+        Set<Genre> genres = new HashSet<>(genreRepository.findAllById(genreIds));
+
+        if (genres.size() != genreIds.size()) {
+            Set<Long> foundIds = genres.stream().map(Genre::getId).collect(Collectors.toSet());
+            genreIds.stream()
+                    .filter(id -> !foundIds.contains(id))
+                    .findFirst()
+                    .ifPresent(missingId -> {
+                        throw new EntityNotFoundException(Constants.GENRE_NOT_FOUND.formatted(missingId));
+                    });
+        }
+
+        return genres;
     }
 }

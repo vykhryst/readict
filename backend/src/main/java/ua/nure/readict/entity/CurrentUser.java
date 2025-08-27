@@ -9,7 +9,7 @@ import java.util.Collection;
 @Getter
 public class CurrentUser implements UserDetails {
 
-    private final User user;                     // ← JPA-сутність
+    private final User user;
     private final Collection<? extends GrantedAuthority> authorities;
 
     public CurrentUser(User user, Collection<? extends GrantedAuthority> authorities) {
@@ -26,5 +26,4 @@ public class CurrentUser implements UserDetails {
     public String getPassword() {
         return user.getPasswordHash();
     }
-    /* решта isAccountNonExpired() ... isEnabled() — true */
 }

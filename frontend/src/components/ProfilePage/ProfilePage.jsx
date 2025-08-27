@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getMe, updateMe, changePwd} from "../../api/user";
+import {changePwd, getMe, updateMe} from "../../api/user";
 import {fetchGenres} from "../../api/books";
 import Navbar from "../Navbar/Navbar";
 import Footer from "../Footer/Footer";
@@ -12,7 +12,7 @@ export default function ProfilePage() {
     const [me, setMe] = useState(null);        // дані з бек-енду
     const [genres, setGenres] = useState([]);  // усі жанри
     const [form, setForm] = useState(null);    // editable copy
-    const [pwd, setPwd] = useState({cur:"", next:"", rep:""});
+    const [pwd, setPwd] = useState({cur: "", next: "", rep: ""});
 
     const [busy, setBusy] = useState(false);   // кнопки «мерехтять»
     const [msg, setMsg] = useState(null);      // короткі повідомлення
@@ -49,8 +49,8 @@ export default function ProfilePage() {
         })
             .then(r => {
                 setMsg("✅ Збережено");
-                /* одразу оновлюємо стани, page reload більше не потрібен */
-                setMe(r.data ?? {...me,
+                setMe(r.data ?? {
+                    ...me,
                     firstName: form.firstName.trim(),
                     lastName: form.lastName.trim(),
                     favouriteGenreIds: Array.from(form.favourite)
@@ -59,7 +59,6 @@ export default function ProfilePage() {
             .finally(() => setBusy(false));
     };
 
-    /* ---- пароль ---- */
     const savePwd = () => {
         if (pwd.next.length < 8) return setMsg("❗ Пароль ≥ 8 символів");
         if (pwd.next !== pwd.rep) return setMsg("❗ Паролі не збігаються");
@@ -68,13 +67,12 @@ export default function ProfilePage() {
         changePwd({currentPassword: pwd.cur, newPassword: pwd.next})
             .then(() => {
                 setMsg("✅ Пароль змінено");
-                setPwd({cur:"", next:"", rep:""});
+                setPwd({cur: "", next: "", rep: ""});
             })
             .catch(e => setMsg(e.response?.data?.error || "Помилка"))
             .finally(() => setBusy(false));
     };
 
-    // Функція для відображення улюблених жанрів
     const renderFavouriteGenres = () => {
         if (!form || form.favourite.size === 0) {
             return <span className="empty-genres-message">Не вибрано жодного жанру</span>;
@@ -95,12 +93,11 @@ export default function ProfilePage() {
         );
     };
 
-    if (!form) return null;  // поки йде початкове завантаження
+    if (!form) return null;
 
-    /* ---------- UI ---------- */
     return (
         <>
-            <Navbar />
+            <Navbar/>
 
             <div className="container mt-4">
                 <div className="profile-container">
@@ -145,7 +142,8 @@ export default function ProfilePage() {
                     <div className="tab-content" id="profileTabsContent">
 
                         {/* ---------- PERSONAL ---------- */}
-                        <div className="tab-pane fade show active" id="tab-personal" role="tabpanel" aria-labelledby="personal-tab">
+                        <div className="tab-pane fade show active" id="tab-personal" role="tabpanel"
+                             aria-labelledby="personal-tab">
 
                             <div className="row mt-3 gx-3">
                                 <div className="col-md-6 mb-3">
@@ -154,7 +152,7 @@ export default function ProfilePage() {
                                            className="form-control"
                                            id="firstName"
                                            value={form.firstName}
-                                           onChange={e => setForm({...form, firstName: e.target.value})} />
+                                           onChange={e => setForm({...form, firstName: e.target.value})}/>
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label htmlFor="lastName" className="form-label">Прізвище</label>
@@ -162,7 +160,7 @@ export default function ProfilePage() {
                                            className="form-control"
                                            id="lastName"
                                            value={form.lastName}
-                                           onChange={e => setForm({...form, lastName: e.target.value})} />
+                                           onChange={e => setForm({...form, lastName: e.target.value})}/>
                                 </div>
                             </div>
 
@@ -172,7 +170,7 @@ export default function ProfilePage() {
                                        className="form-control"
                                        id="email"
                                        value={me.email}
-                                       disabled />
+                                       disabled/>
                             </div>
 
                             {/* ---------- favourite genres ---------- */}
@@ -206,7 +204,7 @@ export default function ProfilePage() {
                                                     <input type="checkbox"
                                                            className="genre-checkbox-input"
                                                            checked={form.favourite.has(genre.id)}
-                                                           onChange={() => toggleGenre(genre.id)} />
+                                                           onChange={() => toggleGenre(genre.id)}/>
                                                     {genre.name}
                                                 </label>
                                             </li>
@@ -242,7 +240,7 @@ export default function ProfilePage() {
                                            className="form-control"
                                            id="currentPassword"
                                            value={pwd.cur}
-                                           onChange={e => setPwd({...pwd, cur: e.target.value})} />
+                                           onChange={e => setPwd({...pwd, cur: e.target.value})}/>
                                 </div>
                             </div>
 
@@ -253,7 +251,7 @@ export default function ProfilePage() {
                                            className="form-control"
                                            id="newPassword"
                                            value={pwd.next}
-                                           onChange={e => setPwd({...pwd, next: e.target.value})} />
+                                           onChange={e => setPwd({...pwd, next: e.target.value})}/>
                                     <div className="password-requirements">
                                         <p className="mb-1">Пароль повинен містити:</p>
                                         <ul>
@@ -262,12 +260,13 @@ export default function ProfilePage() {
                                     </div>
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label htmlFor="confirmPassword" className="form-label">Підтвердження нового паролю</label>
+                                    <label htmlFor="confirmPassword" className="form-label">Підтвердження нового
+                                        паролю</label>
                                     <input type="password"
                                            className="form-control"
                                            id="confirmPassword"
                                            value={pwd.rep}
-                                           onChange={e => setPwd({...pwd, rep: e.target.value})} />
+                                           onChange={e => setPwd({...pwd, rep: e.target.value})}/>
                                 </div>
                             </div>
 
@@ -287,7 +286,7 @@ export default function ProfilePage() {
                 </div>
             </div>
 
-            <Footer />
+            <Footer/>
         </>
     );
 }
