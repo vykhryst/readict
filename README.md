@@ -13,6 +13,8 @@ Users can browse a rich catalog, add books to custom shelves (like "Want to Read
 
 The feature of Readict is its recommendation engine, which uses collaborative filtering  to suggest new books based on a user's ratings and their stated favorite genres..
 
+- 📹 [Video demo](https://drive.google.com/file/d/1bedo76nXqX_2bidiH1w1C6Y6VQ_QgPLg/view?usp=sharing)
+
 ![Readict Homepage Screenshot](https://github.com/user-attachments/assets/f101c59f-dc3d-4ce5-8c9e-391bfabe22cc)
 
 ## Features
